@@ -1,0 +1,221 @@
+Форматы вывода:
+d = "0123456789"
+i = "01"
+o = "01234567"
+x = "0123456789abcdef"
+X = "0123456789ABCDEF"
+
+//ft_bzero(flag, sizeof(t_flag));
+
+cspdiuxX% 	nfge
+-0.* 		# +   l ll h hh
+
+
+make re && make clean && gcc -Wall -Wextra main.c libftprintf.a && ./a.out | cat -e && make fclean && rm a.out
+
+
+
+printf("\nmin = %d\n", data.f_minus);
+printf("zer = %d\n", data.f_zero);
+printf("dot = %d\n", data.f_dot);
+printf("oct = %d\n", data.f_octhos);
+printf("spa = %d\n", data.f_space);
+printf("plu = %d\n", data.f_plus);
+printf("l = %d\n", data.f_l);
+printf("ll = %d\n", data.f_ll);
+printf("h = %d\n", data.f_h);
+printf("hh = %d\n", data.f_hh);
+printf("fl = %d\n", data.fl);
+printf("str = %s\n", data.result);
+printf("flags = %s\n", data.parc_flags);
+printf("TYPE = %d\n", data.type);
+
+
+	printf("1\t\t|");
+	int	d1 = 123;
+	printf("%d\n", d1);
+	printf("2.2\t $6d$:\t|");
+	int	d2 = 42, d3 = 1543;
+	printf("%6d*%6d*%6d\n", d1, d2, d3);
+	printf("2.3\t $-6d$:\t|");
+	printf("%-6d*%-6d*%-6d\n", d1, d2, d3);
+	printf("2.4\t $06d$:\t|");
+	d1 = -123;
+	printf("%06d\n", d1);
+	printf("2.5\t $6d$:\t|");
+	printf("%6d\n", d1);
+	printf("2.6\t $.6d$:\t|");
+	d1 = 123;
+	printf("%.6d\n", d1);
+	printf("2.7\t $hhd$:\t|");
+	char	cp1 = 123;
+	printf ("%hhd\n", cp1);
+	printf("2.8\t &hd&:\t|");
+	short int	si1 = 123;
+	printf("%hd\n", si1);
+	printf("2.9\t $ld$:\t|");
+	long int	li1 = 123;
+	printf("%ld\n", li1);
+	printf("2.10\t $lld$:\t|");
+	long long int	lli1 = 123;
+	printf("%lld\n", lli1);
+	printf("2.11\t $u$:\t|");
+	unsigned int	ui1 = 123;
+	printf("%u\n", ui1);
+	printf("2.12\t $o$:\t|");
+	printf("%o\n", ui1);
+	printf("2.13\t $x$:\t|");
+	printf("%x\n", ui1);
+	printf("2.14\t $#x$:\t|");
+	printf("%#x\n", ui1);
+	printf("3.1\t $f$:\t|");
+	double	dd1 = 123.456;
+	printf("%f\n", dd1);
+	printf("3.2\t $.2f$:\t|");
+	printf("%.2f\n", dd1);
+	printf("3.3\t $e$:\t|");
+	printf("%e\n",dd1);
+	printf("3.4\t $g$:\t|");
+	double	ds1 =  123.4567, ds2 = 1234567.34567;
+	printf("%g %g\n", ds1, ds2);
+	printf("3.5\t $a$:\t|");
+	printf("%a\n", dd1);
+	printf("4\t $c$:\t|");
+	char dc1 = 'k';
+	printf("%c\n", dc1);
+	printf("5\t $s$:\t|");
+	char dss1[4] = "abc";
+	printf("%s\n", dss1);
+	printf("6\t $p$:\t|");
+	printf("%p\n", dss1);
+	printf("7\t $n$:\t|");
+	int dv1 = 0;
+	fflush(stdout);
+	printf("Derived characters:%n ", &dv1);
+	printf(" %d\n", dv1);
+	printf("6\t $s$\t|");
+	printf("%s\n", dss1);
+	fflush(stdout);
+
+
+static int	ft_find_number(t_flag *data, char **st, char c)
+{
+	(void)data;
+	(void)st;
+	(void)c;
+	return (0);
+}
+
+static int	ft_this_is_flag(char *st, t_flag *data)
+{
+	if ((*st < '-' || *st > '9' || *st == 47) && *st != 32)
+		return (1);
+	if (*st == '-')
+		ft_find_number(data, &st, '-');
+	if (*st == '0')
+		ft_find_number(data, &st, '0');
+	if (*st == '.')
+		data->f_dot++;
+	return (0);
+}
+
+void	ft_now_flags(t_flag *data)
+{
+	char	*prfl;
+
+	prfl = data->parc_flags;
+	while (*prfl)
+	{
+		if (ft_this_is_flag(prfl, data))
+			data->fl = 3;
+		prfl++;
+	}
+	free (data->parc_flags);
+	data->parc_flags = NULL;
+}
+
+/*
+static int	ft_this_is_flag_b(char *c, t_flag *data)
+{
+	if (*c != 45 && *c != 46 && *c != 35 && *c != 32 && *c != 43 && *c != 'l'
+		&& *c != 'h' && (*c < '0' || *c > '9'))
+		return (1);
+	if (*c == '-')
+		data->f_minus++;
+	if (*c == '0')
+		data->f_zero++;
+	if (*c == '.')
+		data->f_dot++;
+	if (*c == '#')
+		data->f_octhos++;
+	if (*c == ' ')
+		data->f_space++;
+	if (*c == '+')
+		data->f_plus++;
+	if (*c == 'l' && *(c + 1) != 'l' && *(c - 1) != 'l')
+		data->f_l++;
+	if (*c == 'h' && *(c + 1) != 'h' && *(c - 1) != 'h')
+		data->f_h++;
+	if (*c == 'l' && *(c + 1) == 'l')
+		data->f_ll++;
+	if (*c == 'h' && *(c + 1) == 'h')
+		data->f_hh++;
+	return (0);
+}
+*/
+
+static int	ft_this_is_convers_b(char c)
+{
+	if (c == 'n')
+		return (110);
+	if (c == 'f')
+		return (102);
+	if (c == 'g')
+		return (103);
+	if (c == 'e')
+		return (101);
+	if (c == 'o')
+		return (111);
+	return (0);
+}
+
+
+int	ft_save_chars(const char **form, t_flag *data)
+{
+	int		i;
+	char	*rez;
+
+	i = ft_helper(data, &form, &rez);
+	if (i < 0)
+		return (i);
+	i = 0;
+	while (data->result && data->result[i])
+	{
+		rez[i] = data->result[i];
+		i++;
+	}
+	while (**form && **form != '%')
+	{
+		rez[i] = **form;
+		i++;
+		*form = *form + 1;
+	}
+	rez[i] = 0;
+	if (data->result)
+		free (data->result);
+	data->result = rez;
+	write (1, rez, i);
+	return (0);
+}
+
+
+
+
+
+10.0.0.0	-	10.255.255.255
+172.16.0.0	-	172.31.255.255
+192.168.0.0	-	192.168.255.255
+
+
+67414141414142676e53374f756c6e6151474766335a5775587331436c42614372465761645362336d5f6f6535746f4b77546b72515f314b346b75757250757a664a526c39464a49484f4b59705177686d6d35794b3864463643695a336159427374707762736947387a673937414f31626853776f4a626f6964366948526f7a6a5a6d5062484e46534b496f5068723670627754682d69634f5a5f454c3830415469344d376734414d4c6e7968376755504c64586d7a4661777555625452647a73574e783647636f495a50534b59345070506631576e6b755a724b674e36394d41614777694658467a6c4c516c4b4d4d5435416932417664354c4b6f31474b4337765536546f57574477544d467533522d62755377304c6469316e514369627852524977363578466d4b394a417050386c3349476735546e364e6c4b64425f347150326752574d6e69727a6d4f35313667436c772d4d794b78556947705a6b544c76544a317870594a71555632715133716e6f3534786b4c595f64534b39564d6e79535f484169543370466a6f556b7a3156666d515731414c59507361376b76625f335a485a476c6961597a6a586f586875417542314b526a5445305a5272544d51316648743534315357676931755162525130626571555f5f507a653278776d513d3d
+
