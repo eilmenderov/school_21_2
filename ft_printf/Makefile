@@ -1,13 +1,15 @@
 SRCS =	ft_printf.c ft_printf_utils.c ft_now_flags.c ft_save_conver.c ft_chars.c \
 		ft_sign_int.c ft_pointer.c ft_unsigned_int.c
 
-OBJS = ${SRCS:.c=.o}
+SRCS_DIR = srcs/
 
-BONUS_OBJS = ${BONUS:.c=.o}
+OBJS = ${addprefix ${SRCS_DIR}, ${SRCS:.c=.o}}
+
+BONUS_OBJS = ${addprefix ${SRCS_DIR}, ${BONUS:.c=.o}}
 
 NAME = libftprintf.a
 
-HEADER = libftprintf.h
+HEADER = ${addprefix ${SRCS_DIR}, libftprintf.h}
 
 CC = gcc
 RM = rm -f
