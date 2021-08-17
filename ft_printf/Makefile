@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 .PHONY: all clean fclean re bonus
 
-%.o:%.c	
+%.o:%.c		${HEADER}
 			@${CC} ${CFLAGC} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS} ${HEADER}
