@@ -30,9 +30,9 @@ bonus:		${OBJS} ${HEADER}
 all:		${NAME}
 
 clean:		
-			${RM} ${OBJS} ${BONUS_OBJS}
+			@${RM} ${OBJS} ${BONUS_OBJS}
 
 fclean:		clean
-			${RM} ${NAME}
+			@${RM} ${NAME}
 
 re:			fclean all 

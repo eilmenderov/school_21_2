@@ -1,24 +1,17 @@
-#include "libftprintf.h"
+#include "./srcs/libftprintf.h"
 #include <stdio.h>
 
 #define INT_MIN -2147483648
 
 int	main(void)
 {
-//	char	*str = "asdasdasd";
-//	int		df = 24;
-//	int		dot = 2;
-//	int		len = 10;
-	// int	i;
-	// int	j;
+	int		i;
+	int		j;
+	char	*str;
 
-	// i =    printf("|%10.5.5d|\n", 30);
-	// j = ft_printf("|%10.5.5d|\n", 30);
-//	write(1, "1\0001\n", 4);
-//	sleep (20);
-	int	a = 123123;
-	char	*str = "AB = %d\n";
-	ft_printf(str, a);
-	printf(str, a);
+	str = "HELLO WORLD!";
+	i =    printf("orig[i] - |%5.5d| |%s|\n", 30, str);
+	j = ft_printf("mine[j] - |%5.5d| |%s|\n", 30, str);
+	printf("i = %d j = %d\n", i, j);
 	return (0);
 }

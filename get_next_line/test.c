@@ -1,23 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-void f(void)
-{
-	static char *a;
-
-	a = malloc(15);
-	a = "1234567890qwe";
-	a[0] = a[0] + 1;
-	printf("%s\t", a);
-}
+#include <fcntl.h>
+#include "get_next_line.h"
 
 int main(void)
 {
-	int			i = 0;
-
-	while (i < 5)
+	int fd = open ("file", O_RDONLY);
+	char *line;
+	int i = 1;
+	while (i && i != -1)
 	{
-		f();
-		i++;
+		i = get_next_line(fd, &line);
+		printf("i = %d %s\n", i, line);
+		free (line);
 	}
+	return (0);
 }

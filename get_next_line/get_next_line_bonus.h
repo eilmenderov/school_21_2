@@ -5,6 +5,9 @@
 # include <unistd.h>
 
 # define FD_SIZE 100000
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
 
 int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *str);

@@ -4,6 +4,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
 int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *str);
 int		ft_cheker(char *ost);
