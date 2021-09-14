@@ -30,7 +30,6 @@ char	*ft_avadchr_helper(char c, t_flag *data, char x)
 char	*ft_avadd_char(char c, t_flag *data)
 {
 	char	*rez;
-	char	x;
 
 	if (data->numb == 0)
 		data->numb = 1;
@@ -40,7 +39,7 @@ char	*ft_avadd_char(char c, t_flag *data)
 		data->f_minus++;
 	}
 	if (c == 0)
-		return (ft_avadchr_helper(c, data, x));
+		return (ft_avadchr_helper(c, data, 0));
 	rez = malloc(sizeof(char) * 2);
 	if (!rez)
 		return (ft_avmal_def(rez, data));
