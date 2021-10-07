@@ -1,14 +1,25 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sign_int.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:28:18 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:28:19 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_avhelp_signint(t_flag *data, int n, int razm, char *rez)
+#include "ft_printf.h"
+
+void	ft_help_signint(t_flag *data, int n, int razm, char *rez)
 {
 	char	c;
 	int		i;
 
-	if (n == 0 && data->accur == 0 && data->f_dot != 0)
-		c = 32;
-	else
-		c = 48;
+	c = '0';
+	if (!n && !data->accur && data->f_dot)
+		c = ' ';
 	i = 0;
 	while (i < razm)
 	{
@@ -23,12 +34,12 @@ void	ft_avhelp_signint(t_flag *data, int n, int razm, char *rez)
 	}
 }
 
-int	ft_avrazm_di(int c, int sys, t_flag *data)
+int	ft_razm_di(int c, int sys, t_flag *data)
 {
 	int	result;
 
 	result = 0;
-	if (c < 0)
+	if (c < 0 || data->plus)
 		result++;
 	while (c / sys)
 	{
@@ -40,35 +51,40 @@ int	ft_avrazm_di(int c, int sys, t_flag *data)
 	return (result + 1);
 }
 
-void	ft_avstr_nbr_di(int nb, int razm, char *rez, char *sys)
+void	ft_str_nbr_di(int nb, int razm, char *sys, t_flag *data)
 {
 	int	i;
 
-	i = ft_avstrlen_s(sys, 0);
+	i = data->sys_len;
 	if (nb == -2147483648)
 	{
-		ft_avstr_nbr_di(nb / i, razm - 1, rez, sys);
-		rez[razm - 1] = sys[-(nb % i)];
+		ft_str_nbr_di(nb / i, razm - 1, sys, data);
+		data->rez[razm - 1] = sys[-(nb % i)];
 	}
 	else if (nb < 0)
 	{
-		rez[0] = 45;
-		ft_avstr_nbr_di(-nb, razm, rez, sys);
+		data->rez[0] = '-';
+		ft_str_nbr_di(-nb, razm, sys, data);
 	}
 	else
 	{
 		if (nb / i)
-			ft_avstr_nbr_di(nb / i, razm - 1, rez, sys);
-		rez[razm - 1] = sys[nb % i];
+			ft_str_nbr_di(nb / i, razm - 1, sys, data);
+		data->rez[razm - 1] = sys[nb % i];
+		if (data->plus && data->nb >= 0)
+		{
+			data->rez[0] = '+';
+			if (!data->nb && !data->accur && !data->numb && data->f_dot)
+				data->rez[1] = 0;
+		}
 	}
 }
 
-char	*ft_avitoa_m_di(int n, char *sys, t_flag *data)
+char	*ft_itoa_m_di(int n, char *sys, t_flag *data)
 {
 	int		razm;
-	char	*rez;
 
-	razm = ft_avrazm_di(n, ft_avstrlen_s(sys, 0), data);
+	razm = ft_razm_di(n, ft_strlen_s(sys, 0), data);
 	if (razm < data->accur)
 	{
 		razm = data->accur;
@@ -77,32 +93,40 @@ char	*ft_avitoa_m_di(int n, char *sys, t_flag *data)
 	}
 	if (n < 0 && razm == data->accur)
 		razm++;
-	rez = malloc(sizeof(char) * (razm + 1));
-	if (!rez)
-		return (ft_avmal_def(rez, data));
-	ft_avhelp_signint(data, n, razm, rez);
-	ft_avstr_nbr_di(n, razm, rez, sys);
-	return (rez);
+	if (data->plus && razm <= data->accur)
+		razm++;
+	data->rez = malloc(sizeof(char) * (razm + 1));
+	if (!data->rez)
+		return (ft_mal_def(data->rez, data));
+	ft_help_signint(data, n, razm, data->rez);
+	data->sys_len = ft_strlen_s(sys, 0);
+	data->nb = n;
+	ft_str_nbr_di(n, razm, sys, data);
+	return (data->rez);
 }
 
-char	*ft_avadd_int(int num, t_flag *data)
+char	*ft_add_int(int num, t_flag *data)
 {
 	char	*rez;
 	int		i;
 
-	rez = ft_avitoa_m_di(num, "0123456789", data);
-	if (rez && data->accur == 0 && num == 0 && data->numb == 0
-		&& data->f_dot != 0)
+	rez = ft_itoa_m_di(num, "0123456789", data);
+	if (rez && !data->accur && !num && !data->numb
+		&& data->f_dot && !data->plus)
 		rez[0] = 0;
-	if (rez && data->accur == 0 && num == 0 && data->numb != 0
-		&& data->f_dot != 0)
+	if (rez && !data->accur && !num && data->numb && data->f_dot)
 	{
 		i = -1;
 		while (rez[++i])
 		{
 			if (rez[i] == '0')
+			{
 				rez[i] = ' ';
+				if (data->f_dot && data->numb && !data->accur && !num)
+					rez[i] = 0;
+			}
 		}
 	}
+	ft_sign_int_helper(data, num, rez);
 	return (rez);
 }

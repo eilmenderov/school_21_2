@@ -1,6 +1,18 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pointer.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:28:04 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:28:05 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_avrazm_p(unsigned long long c, int sys)
+#include "ft_printf.h"
+
+int	ft_razm_p(unsigned long long c, int sys)
 {
 	int	result;
 
@@ -13,33 +25,33 @@ int	ft_avrazm_p(unsigned long long c, int sys)
 	return (result + 1);
 }
 
-void	ft_avstr_nbr_p(unsigned long long nb, int razm, char *rez, char *sys)
+void	ft_str_nbr_p(unsigned long long nb, int razm, char *rez, char *sys)
 {
 	int	i;
 
-	i = ft_avstrlen_s(sys, 0);
+	i = ft_strlen_s(sys, 0);
 	if (nb / i)
-		ft_avstr_nbr_p(nb / i, razm - 1, rez, sys);
+		ft_str_nbr_p(nb / i, razm - 1, rez, sys);
 	rez[razm - 1] = sys[nb % i];
 }
 
-char	*ft_avitoa_m_p(unsigned long long n, char *sys, t_flag *data)
+char	*ft_itoa_m_p(unsigned long long n, char *sys, t_flag *data)
 {
 	int		razm;
 	int		i;
 	char	*rez;
 
-	razm = ft_avrazm_p(n, ft_avstrlen_s(sys, 0)) + 2;
+	razm = ft_razm_p(n, ft_strlen_s(sys, 0)) + 2;
 	if (razm < data->accur)
 		razm = data->accur + 2;
 	rez = malloc(sizeof(char) * (razm + 1));
 	if (!rez)
-		return (ft_avmal_def(rez, data));
+		return (ft_mal_def(rez, data));
 	rez[razm] = 0;
 	i = -1;
 	while (i++ < razm)
 		rez[i] = 48;
-	ft_avstr_nbr_p(n, razm, rez, sys);
+	ft_str_nbr_p(n, razm, rez, sys);
 	rez[razm] = 0;
 	rez[0] = '0';
 	rez[1] = 'x';
@@ -48,10 +60,18 @@ char	*ft_avitoa_m_p(unsigned long long n, char *sys, t_flag *data)
 	return (rez);
 }
 
-char	*ft_avadd_pointer(unsigned long long num, t_flag *data)
+char	*ft_add_pointer(unsigned long long num, t_flag *data)
 {
 	char	*rez;
 
-	rez = ft_avitoa_m_p(num, "0123456789abcdef", data);
+	rez = ft_itoa_m_p(num, "0123456789abcdef", data);
 	return (rez);
+}
+
+void	ft_write_len(t_flag *data, int fl)
+{
+	write(1, " ", 1);
+	data->len++;
+	if (fl)
+		data->numb--;
 }

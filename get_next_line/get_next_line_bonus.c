@@ -83,7 +83,7 @@ char	*ft_saver(char *ost, int *fl)
 	return (rez);
 }
 
-int	get_next_line(int fd, char **line)
+int	ft_gnl(int fd, char **line)
 {
 	char		*buf;
 	static char	*ost[FD_SIZE];
@@ -107,4 +107,26 @@ int	get_next_line(int fd, char **line)
 	if (!rdr && fl)
 		return (0);
 	return (1);
+}
+
+char	*get_next_line(int fd)
+{
+	char	*line;
+	int		answ;
+
+	line = NULL;
+	answ = ft_gnl(fd, &line);
+	if (answ == -1)
+	{
+		if (line)
+			free(line);
+		return (NULL);
+	}
+	if (line && answ)
+		return (ft_strjoin(line, "\n"));
+	if (line && line[0])
+		return (line);
+	if (line)
+		free(line);
+	return (NULL);
 }

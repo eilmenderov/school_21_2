@@ -9,7 +9,7 @@ BONUS_OBJS = ${addprefix ${SRCS_DIR}, ${BONUS:.c=.o}}
 
 NAME = libftprintf.a
 
-HEADER = ${addprefix ${SRCS_DIR}, libftprintf.h}
+HEADER = ./srcs/ft_printf.h
 
 CC = gcc
 RM = rm -f
@@ -19,13 +19,12 @@ CFLAGS = -Wall -Wextra -Werror
 .PHONY: all clean fclean re bonus
 
 %.o:%.c		${HEADER}
-			@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS} ${HEADER}
-			@ar rcs ${NAME} ${OBJS} $?
+			ar rcs ${NAME} ${OBJS} $?
 
-bonus:		${OBJS} ${HEADER}
-			@ar rcs ${NAME} ${OBJS} $?
+bonus:		${NAME}
 
 all:		${NAME}
 

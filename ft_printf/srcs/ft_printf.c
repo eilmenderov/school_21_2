@@ -1,6 +1,18 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:28:10 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:28:10 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*ft_avmal_def(char *str, t_flag *data)
+#include "ft_printf.h"
+
+char	*ft_mal_def(char *str, t_flag *data)
 {
 	if (!str)
 	{
@@ -10,7 +22,7 @@ char	*ft_avmal_def(char *str, t_flag *data)
 	return (str);
 }
 
-int	ft_avsave_chars(const char **form, t_flag *data)
+int	ft_save_chars(const char **form, t_flag *data)
 {
 	int		i;
 
@@ -26,22 +38,22 @@ int	ft_avsave_chars(const char **form, t_flag *data)
 	return (i);
 }
 
-int	ft_avparc_param(const char **form, t_flag *data)
+int	ft_parc_param(const char **form, t_flag *data)
 {
 	int		i;
 	char	*prfl;
 
 	*form = *form + 1;
 	i = 0;
-	while (((char *)*form)[i] && !(ft_avthis_is_convers(((char *)*form)[i])))
+	while (((char *)*form)[i] && !(ft_this_is_convers(((char *)*form)[i])))
 		i++;
-	if (!(ft_avthis_is_convers(((char *)*form)[i])))
+	if (!(ft_this_is_convers(((char *)*form)[i])))
 		return (-2);
 	prfl = malloc(sizeof(char) * (i + 1));
 	if (!prfl)
 		return (-1);
 	i = 0;
-	while (**form && !ft_avthis_is_convers(**form))
+	while (**form && !ft_this_is_convers(**form))
 	{
 		prfl[i] = (char)**form;
 		i++;
@@ -49,12 +61,12 @@ int	ft_avparc_param(const char **form, t_flag *data)
 	}
 	prfl[i] = 0;
 	data->parc_flags = prfl;
-	data->type = ft_avthis_is_convers(**form);
+	data->type = ft_this_is_convers(**form);
 	*form = *form + 1;
 	return (0);
 }
 
-int	ft_avtheend(t_flag *data)
+int	ft_theend(t_flag *data)
 {
 	if (data->fl < 0)
 	{
@@ -69,21 +81,21 @@ int	ft_printf(const char *form, ...)
 	va_list	ar;
 	t_flag	data;
 
-	ft_avinit_data(&data);
+	ft_init_data(&data);
 	va_start(ar, form);
 	while (*form && !data.fl)
 	{
-		ft_avclear_data(&data);
-		data.len = data.len + ft_avsave_chars(&form, &data);
+		ft_clear_data(&data);
+		data.len = data.len + ft_save_chars(&form, &data);
 		if (!data.fl && *form == '%')
 		{
-			data.fl = ft_avparc_param(&form, &data);
-			ft_avnow_flags(&data);
+			data.fl = ft_parc_param(&form, &data);
+			ft_now_flags(&data);
 			if (data.fl)
-				return (ft_avtheend(&data));
-			ft_avsave_conver(&data, ar);
+				return (ft_theend(&data));
+			ft_save_conver(&data, ar);
 		}
 	}
 	va_end(ar);
-	return (ft_avtheend(&data));
+	return (ft_theend(&data));
 }

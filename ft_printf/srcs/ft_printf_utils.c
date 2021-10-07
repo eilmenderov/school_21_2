@@ -1,6 +1,18 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:28:07 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:28:07 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_avinit_data(t_flag *data)
+#include "ft_printf.h"
+
+void	ft_init_data(t_flag *data)
 {
 	data->f_minus = 0;
 	data->f_zero = 0;
@@ -9,13 +21,15 @@ void	ft_avinit_data(t_flag *data)
 	data->f_dot = 0;
 	data->accur = 0;
 	data->f_space = 0;
+	data->resh = 0;
+	data->plus = 0;
 	data->parc_flags = NULL;
 	data->type = 0;
 	data->fl = 0;
 	data->len = 0;
 }
 
-void	ft_avclear_data(t_flag *data)
+void	ft_clear_data(t_flag *data)
 {
 	data->f_minus = 0;
 	data->f_zero = 0;
@@ -24,10 +38,12 @@ void	ft_avclear_data(t_flag *data)
 	data->f_dot = 0;
 	data->accur = 0;
 	data->f_space = 0;
+	data->resh = 0;
+	data->plus = 0;
 	data->type = 0;
 }
 
-int	ft_avthis_is_convers(char c)
+int	ft_this_is_convers(char c)
 {
 	int	i;
 
@@ -55,7 +71,7 @@ int	ft_avthis_is_convers(char c)
 	return (i);
 }
 
-int	ft_avstrlen_s(const char *str, char c)
+int	ft_strlen_s(const char *str, char c)
 {
 	int	i;
 
@@ -67,13 +83,13 @@ int	ft_avstrlen_s(const char *str, char c)
 	return (i);
 }
 
-int	ft_avhelper(t_flag *data, const char ***form, char **rez)
+int	ft_helper(t_flag *data, const char ***form, char **rez)
 {
 	int	i;
 
 	if (!*form || !data)
 		return (-1);
-	i = ft_avstrlen_s(**form, '%');
+	i = ft_strlen_s(**form, '%');
 	*rez = malloc(sizeof(char) * (i + 1));
 	if (!(*rez))
 		return (-3);

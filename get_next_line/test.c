@@ -5,13 +5,19 @@
 int main(void)
 {
 	int fd = open ("file", O_RDONLY);
-	char *line;
-	int i = 1;
-	while (i && i != -1)
+	char *line = NULL;
+	while (1)
 	{
-		i = get_next_line(fd, &line);
-		printf("i = %d %s\n", i, line);
-		free (line);
+		line = get_next_line(fd);
+		printf("|%s|\n", line);
+		if (!line)
+			break ;
+		if (line)
+			free (line);
+		line = NULL;
 	}
 	return (0);
 }
+
+
+// gcc -Wall -Wextra -Werror test.c get_next_line.c get_next_line_utils.c && ./a.out | cat -e && rm a.out

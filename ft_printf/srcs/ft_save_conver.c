@@ -1,6 +1,18 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_save_conver.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:28:16 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:28:16 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_avstrj_help(char **str)
+#include "ft_printf.h"
+
+void	ft_strj_help(char **str)
 {
 	if (*str)
 	{
@@ -9,7 +21,7 @@ void	ft_avstrj_help(char **str)
 	}
 }
 
-char	*ft_avstrjoin_m(char *s1, char *s2, int i, int f)
+char	*ft_strjoin_m(char *s1, char *s2, int i, int f)
 {
 	int		k;
 	int		j;
@@ -17,7 +29,7 @@ char	*ft_avstrjoin_m(char *s1, char *s2, int i, int f)
 
 	if (!s1 || !s2)
 		return (NULL);
-	k = ft_avstrlen_s(s1, 0) + ft_avstrlen_s(s2, 0);
+	k = ft_strlen_s(s1, 0) + ft_strlen_s(s2, 0);
 	rez = malloc(sizeof(char) * (k + 1));
 	if (!rez)
 		return (NULL);
@@ -33,11 +45,11 @@ char	*ft_avstrjoin_m(char *s1, char *s2, int i, int f)
 	if (s1)
 		free (s1);
 	if (s2 && f == 1)
-		ft_avstrj_help(&s2);
+		ft_strj_help(&s2);
 	return (rez);
 }
 
-char	*ft_avhop_char(char *str, t_flag *data, int len)
+char	*ft_hop_char(char *str, t_flag *data, int len)
 {
 	char	*rez;
 	char	c;
@@ -60,13 +72,13 @@ char	*ft_avhop_char(char *str, t_flag *data, int len)
 	while (j++ < i - 1)
 		rez[j] = c;
 	if (data->numb < 0 || data->f_minus)
-		rez = ft_avstrjoin_m(str, rez, -1, 1);
+		rez = ft_strjoin_m(str, rez, -1, 1);
 	else
-		rez = ft_avstrjoin_m(rez, str, -1, 1);
-	return (ft_avmal_def(rez, data));
+		rez = ft_strjoin_m(rez, str, -1, 1);
+	return (ft_mal_def(rez, data));
 }
 
-void	ft_avcon_res(t_flag *data, char *buf)
+void	ft_con_res(t_flag *data, char *buf)
 {
 	int	len;
 
@@ -77,11 +89,11 @@ void	ft_avcon_res(t_flag *data, char *buf)
 		data->f_minus++;
 		data->numb = -data->numb;
 	}
-	if (data->f_dot && data->accur < ft_avstrlen_s(buf, 0) && data->type == 115)
+	if (data->f_dot && data->accur < ft_strlen_s(buf, 0) && data->type == 115)
 		buf[data->accur] = 0;
-	len = ft_avstrlen_s(buf, 0);
+	len = ft_strlen_s(buf, 0);
 	if (data->f_num && data->numb > len)
-		buf = ft_avhop_char(buf, data, len);
+		buf = ft_hop_char(buf, data, len);
 	if (len < data->numb)
 		len = data->numb;
 	write (1, buf, len);
@@ -93,7 +105,7 @@ void	ft_avcon_res(t_flag *data, char *buf)
 	}
 }
 
-void	ft_avsave_conver(t_flag *data, va_list ar)
+void	ft_save_conver(t_flag *data, va_list ar)
 {
 	char	*buf;
 
@@ -102,20 +114,20 @@ void	ft_avsave_conver(t_flag *data, va_list ar)
 		data->numb = va_arg(ar, int);
 	if (data->f_dot == -1 && !data->accur)
 		data->accur = va_arg(ar, int);
-	if (ft_avdef_fl(data))
+	if (ft_def_fl(data))
 		return ;
 	if (data->type == 99)
-		buf = ft_avadd_char(va_arg(ar, int), data);
+		buf = ft_add_char(va_arg(ar, int), data);
 	if (data->type == 37)
-		buf = ft_avadd_char_pr(data);
+		buf = ft_add_char_pr(data);
 	if (data->type == 115)
-		buf = ft_avadd_str(va_arg(ar, char *), data);
+		buf = ft_add_str(va_arg(ar, char *), data);
 	if (data->type == 100 || data->type == 105)
-		buf = ft_avadd_int(va_arg(ar, int), data);
+		buf = ft_add_int(va_arg(ar, int), data);
 	if (data->type == 112)
-		buf = ft_avadd_pointer(va_arg(ar, unsigned long long), data);
+		buf = ft_add_pointer(va_arg(ar, unsigned long long), data);
 	if (data->type == 120 || data->type == 88 || data->type == 117
 		|| data->type == 111)
-		buf = ft_avadd_xnum(va_arg(ar, unsigned int), data);
-	ft_avcon_res(data, buf);
+		buf = ft_add_xnum(va_arg(ar, unsigned int), data);
+	ft_con_res(data, buf);
 }

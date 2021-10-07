@@ -1,6 +1,18 @@
-#include "libftprintf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_chars.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vleida <vleida@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/06 13:27:58 by vleida            #+#    #+#             */
+/*   Updated: 2021/10/06 13:27:59 by vleida           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*ft_avadchr_helper(char c, t_flag *data, char x)
+#include "ft_printf.h"
+
+char	*ft_adchr_helper(char c, t_flag *data, char x)
 {
 	x = ' ';
 	if (data->f_zero && !data->f_minus)
@@ -27,7 +39,7 @@ char	*ft_avadchr_helper(char c, t_flag *data, char x)
 	return (NULL);
 }
 
-char	*ft_avadd_char(char c, t_flag *data)
+char	*ft_add_char(char c, t_flag *data)
 {
 	char	*rez;
 
@@ -39,16 +51,16 @@ char	*ft_avadd_char(char c, t_flag *data)
 		data->f_minus++;
 	}
 	if (c == 0)
-		return (ft_avadchr_helper(c, data, 0));
+		return (ft_adchr_helper(c, data, 0));
 	rez = malloc(sizeof(char) * 2);
 	if (!rez)
-		return (ft_avmal_def(rez, data));
+		return (ft_mal_def(rez, data));
 	rez[0] = c;
 	rez[1] = 0;
 	return (rez);
 }
 
-char	*ft_avadd_char_pr(t_flag *data)
+char	*ft_add_char_pr(t_flag *data)
 {
 	char	*rez;
 
@@ -56,13 +68,13 @@ char	*ft_avadd_char_pr(t_flag *data)
 		data->numb = 1;
 	rez = malloc(sizeof(char) * 2);
 	if (!rez)
-		return (ft_avmal_def(rez, data));
+		return (ft_mal_def(rez, data));
 	rez[0] = '%';
 	rez[1] = 0;
 	return (rez);
 }
 
-char	*ft_avadd_str(char *str, t_flag *data)
+char	*ft_add_str(char *str, t_flag *data)
 {
 	char	*rez;
 	char	*buf;
@@ -73,16 +85,16 @@ char	*ft_avadd_str(char *str, t_flag *data)
 		buf = "(null)";
 		rez = malloc(sizeof(char) * 7);
 		if (!rez)
-			return (ft_avmal_def(rez, data));
+			return (ft_mal_def(rez, data));
 		i = -1;
 		while (i++ < 7)
 			rez[i] = buf[i];
 		return (rez);
 	}
-	i = ft_avstrlen_s(str, 0) + 1;
+	i = ft_strlen_s(str, 0) + 1;
 	rez = malloc(sizeof(char) * i);
 	if (!rez)
-		return (ft_avmal_def(rez, data));
+		return (ft_mal_def(rez, data));
 	while (--i != -1)
 		rez[i] = str[i];
 	return (rez);
