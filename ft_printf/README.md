@@ -5,7 +5,7 @@ The key to a successful ft_printf is a well-structured and good extensible code.
 
 conversions:	"cspdiuxX%"
 
-flags:	'-0.*'
+flags:	'-0.*# +'
 
 test libftprintf:
 
