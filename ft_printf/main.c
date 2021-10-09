@@ -27,9 +27,5 @@ int	main(void)
 	ft_printf("%c", 't');
 	ft_printf("%+-3.7i", -2375);
 	ft_printf("%c %2s %% %-.2d", 0, "asdasd", 34);
-	sleep(5);
 	return (0);
 }
-
-//  make && gcc -Wall -Wextra -Werror main.c libftprintf.a && ./a.out && rm a.out
-//	make re && ./test
