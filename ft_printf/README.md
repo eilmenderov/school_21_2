@@ -5,7 +5,7 @@ The key to a successful ft_printf is a well-structured and good extensible code.
 
 ## Supported conversions:	"cspdiuxX%"
 
-## Supported flags:	'-0.*+ #'
+## Supported flags:	"-0.*+ #"
 
 ### How to use:
 ```
