@@ -343,7 +343,7 @@ sudo service ssh status
 lsb_release -a # system info
 id -Gn # group's
 sudo cat /etc/login.defs | grep PASS | awk '!/#/'
-sudo chage -l avchar # for set passwords
+sudo chage -l name_user # for set passwords
 sudo cat /etc/pam.d/common-password | awk '!/#/'
 
 sudo adduser name_user # create user
@@ -354,7 +354,7 @@ sudo addgroup groop_name # create group
 sudo groupdel groop_name # delete group
 sudo adduser name_user groop_name
 getent group name_user # check group -> also more info here: sudo groupmod --help
-hostnamectl # hostname vleida42
+hostnamectl # hostname name_user42
 hostnamectl set-hostname name_host
 sudo reboot
 dpkg -l | grep sudo
