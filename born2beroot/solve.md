@@ -324,3 +324,44 @@ LVM — это дополнительный слой абстракции от �
 1. PV (Physical Volume) — физические тома (это могут быть разделы или целые «неразбитые» диски)
 2. VG (Volume Group) — группа томов (объединяем физические тома (PV) в группу, создаём единый диск, который будем дальше разбивать так, как нам хочется)
 3. LV (Logical Volume) — логические разделы, собственно раздел нашего нового «единого диска» ака Группы Томов, который мы потом форматируем и используем как обычный раздел, обычного жёсткого диска.
+
+
+
+
+
+
+
+
+
+
+# FOR CHECK
+
+```
+sudo crontab -u root -e  # set crontab: minute hour day month weekday cmd
+sudo ufw status
+sudo service ssh status
+lsb_release -a # system info
+id -Gn # group's
+sudo cat /etc/login.defs | grep PASS | awk '!/#/'
+sudo chage -l avchar # for set passwords
+sudo cat /etc/pam.d/common-password | awk '!/#/'
+
+sudo adduser name_user # create user
+sudo userdel name_user # delete user
+getent passwd name_user # check
+
+sudo addgroup groop_name # create group
+sudo groupdel groop_name # delete group
+sudo adduser name_user groop_name
+getent group name_user # check group -> also more info here: sudo groupmod --help
+hostnamectl # hostname vleida42
+hostnamectl set-hostname name_host
+sudo reboot
+dpkg -l | grep sudo
+sudo ufw allow 8080
+sudo /etc/init.d/cron stop
+sudo netstat -tulpn | grep LISTEN
+
+sudo cat /etc/sudoers.d/sudo_add_config | awk '!/#/'
+sudo cat /usr/local/bin/monitoring.sh
+```
